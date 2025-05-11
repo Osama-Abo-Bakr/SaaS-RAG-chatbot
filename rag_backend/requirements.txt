@@ -1,0 +1,53 @@
+# RAG Pipeline.
+langchain
+langchain-openai
+langchain-community
+langchain-experimental
+langchain-google-genai
+
+# Document Ingestion
+llama-index
+docx2txt
+EbookLib 
+html2text
+
+# For Embedding
+langchain-huggingface
+
+# For Vector-DB & Re-rank.
+langchain-weaviate
+langchain-cohere
+weaviate-client
+weaviate
+cohere
+
+# For Database PostgreSQL
+psycopg2-binary
+psycopg2
+sqlalchemy
+
+# For Data Processing
+unstructured[all-docs]
+onnx==1.14.1
+onnxruntime==1.16.3
+whisper
+openai-whisper
+google-genai
+google
+
+
+# For Backend & APIs
+fastapi[standard]
+uvicorn[standard]
+python-multipart
+
+# Load Env
+python-dotenv
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+jose
+
+# For test GUI
+streamlit

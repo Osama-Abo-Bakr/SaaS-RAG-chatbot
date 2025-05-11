@@ -1,0 +1,78 @@
+# ---
+# services:
+#   weaviate:
+#     command:
+#     - --host
+#     - 0.0.0.0
+#     - --port
+#     - '8080'
+#     - --scheme
+#     - http
+#     image: cr.weaviate.io/semitechnologies/weaviate:1.30.0
+#     ports:
+#     - 8080:8080
+#     - 50051:50051
+#     volumes:
+#     - weaviate_data:/var/lib/weaviate
+#     restart: on-failure:0
+#     environment:
+#       QUERY_DEFAULTS_LIMIT: 25
+#       AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+#       PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+#       ENABLE_API_BASED_MODULES: 'true'
+#       ENABLE_MODULES: 'text2vec-ollama,generative-ollama'
+#       CLUSTER_HOSTNAME: 'node1'
+# volumes:
+#   weaviate_data:
+# ...
+
+version: '3.8'
+
+services:
+  weaviate:
+    command:
+    - --host
+    - 0.0.0.0
+    - --port
+    - '8080'
+    - --scheme
+    - http
+    image: cr.weaviate.io/semitechnologies/weaviate:1.30.0
+    ports:
+    - 8080:8080
+    - 50051:50051
+    volumes:
+    - weaviate_data:/var/lib/weaviate
+    restart: on-failure:0
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      ENABLE_API_BASED_MODULES: 'true'
+      ENABLE_MODULES: 'text2vec-ollama,generative-ollama'
+      CLUSTER_HOSTNAME: 'node1'
+
+  rag-chatbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - weaviate
+    restart: on-failure:0
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      WEAVIATE_URL: http://weaviate:8080
+      AUTH_SECRET_KEY: ${AUTH_SECRET_KEY}
+      DEFAULT_ADMIN_PASSWORD: ${DEFAULT_ADMIN_PASSWORD}
+      COHERE_API_KEY: ${COHERE_API_KEY}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
+      PROCESS_FILE_API_KEY: ${PROCESS_FILE_API_KEY}
+
+volumes:
+  weaviate_data:

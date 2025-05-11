@@ -1,0 +1,5 @@
+.env
+tester/*
+test.ipynb
+rag_frontend/lib/node_modules/*
+rag_backend/.env
